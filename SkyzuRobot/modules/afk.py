@@ -60,8 +60,7 @@ def no_longer_afk(update: Update, context: CallbackContext):
     if not user:  # ignore channels
         return
 
-    res = sql.rm_afk(user.id)
-    if res:
+    if res := sql.rm_afk(user.id):
         if message.new_chat_members:  # dont say msg
             return
         firstname = update.effective_user.first_name
@@ -119,7 +118,7 @@ def reply_afk(update: Update, context: CallbackContext):
             try:
                 chat = bot.get_chat(user_id)
             except BadRequest:
-                print("Error: Could not fetch userid {} for AFK module".format(user_id))
+                print(f"Error: Could not fetch userid {user_id} for AFK module")
                 return
             fst_name = chat.first_name
 
